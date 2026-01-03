@@ -1,2 +1,2 @@
 # writehere-backend
-WriteHere Blog  - Frontend (React + Vite)
+ WriteHere Blog - Backend (Node.js + Express)
