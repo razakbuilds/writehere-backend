@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        Int       @id @default(autoincrement())   // internal PK
+  publicId  String    @unique @default(cuid())        // public/API ID
+
+  email     String    @unique
+  password  String
+  username  String    @unique
+  role      String    @default("USER")
+  createdAt DateTime  @default(now())
+
+  articles  Article[]
+}
+
+model Article {
+  id        Int       @id @default(autoincrement())
+  publicId  String    @unique @default(cuid())
+
+  title     String
+  content   String
+  createdAt DateTime  @default(now())
+
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  Int
+
+  category  Category  @relation(fields: [categoryId], references: [id])
+  categoryId Int
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  publicId  String    @unique @default(cuid())
+
+  name      String    @unique
+  articles  Article[]
+}
